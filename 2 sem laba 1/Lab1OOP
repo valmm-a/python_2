@@ -1,0 +1,228 @@
+import doctest
+
+
+class Car:
+    def __init__(self, brand: str, fuel_capacity: float, fuel_level: float):
+        """
+        Создание и подготовка к работе объекта "Автомобиль"
+
+        :param brand: Марка автомобиля
+        :param fuel_capacity: Объем топливного бака
+        :param fuel_level: Текущий уровень топлива
+
+        Примеры:
+        >>> car = Car("Toyota", 50, 10)  # инициализация экземпляра класса
+        """
+        if not isinstance(brand, str):
+            raise TypeError("Марка автомобиля должна быть строкой")
+        if not brand:
+            raise ValueError("Марка автомобиля не может быть пустой строкой")
+        self.brand = brand
+
+        if not isinstance(fuel_capacity, (int, float)):
+            raise TypeError("Объем бака должен быть типа int или float")
+        if fuel_capacity <= 0:
+            raise ValueError("Объем бака должен быть положительным числом")
+        self.fuel_capacity = fuel_capacity
+
+        if not isinstance(fuel_level, (int, float)):
+            raise TypeError("Уровень топлива должен быть типа int или float")
+        if fuel_level < 0:
+            raise ValueError("Уровень топлива не может быть отрицательным")
+        if fuel_level > fuel_capacity:
+            raise ValueError("Уровень топлива не может превышать объем бака")
+        self.fuel_level = fuel_level
+
+    def is_empty_tank(self) -> bool:
+        """
+        Проверка, пустой ли бак.
+
+        :return: True если бак пуст, иначе False
+
+        Примеры:
+        >>> car = Car("Toyota", 50, 0)
+        >>> car.is_empty_tank()
+        """
+        ...
+
+    def refuel(self, fuel: float) -> None:
+        """
+        Заправка автомобиля.
+
+        :param fuel: Количество добавляемого топлива
+        :raise ValueError: Если количество топлива превышает свободное место в баке
+
+        Примеры:
+        >>> car = Car("Toyota", 50, 10)
+        >>> car.refuel(20)
+        """
+        if not isinstance(fuel, (int, float)):
+            raise TypeError("Количество топлива должно быть типа int или float")
+        if fuel <= 0:
+            raise ValueError("Количество топлива должно быть положительным числом")
+        ...
+
+    def drive(self, fuel_spent: float) -> None:
+        """
+        Поездка на автомобиле.
+
+        :param fuel_spent: Количество израсходованного топлива
+        :raise ValueError: Если топлива недостаточно для поездки
+
+        :return: None
+
+        Примеры:
+        >>> car = Car("Toyota", 50, 30)
+        >>> car.drive(10)
+        """
+        if not isinstance(fuel_spent, (int, float)):
+            raise TypeError("Расход топлива должен быть типа int или float")
+        if fuel_spent <= 0:
+            raise ValueError("Расход топлива должен быть положительным числом")
+        ...
+
+
+class BankAccount:
+    def __init__(self, owner: str, balance: float):
+        """
+        Создание и подготовка к работе объекта "Банковский счет"
+
+        :param owner: Имя владельца счета
+        :param balance: Начальный баланс
+
+        Примеры:
+        >>> account = BankAccount("Alice", 1000)
+        """
+        if not isinstance(owner, str):
+            raise TypeError("Имя владельца должно быть строкой")
+        if not owner:
+            raise ValueError("Имя владельца не может быть пустым")
+        self.owner = owner
+
+        if not isinstance(balance, (int, float)):
+            raise TypeError("Баланс должен быть типа int или float")
+        if balance < 0:
+            raise ValueError("Баланс не может быть отрицательным")
+        self.balance = balance
+
+    def deposit(self, amount: float) -> None:
+        """
+        Пополнение счета.
+
+        :param amount: Сумма пополнения
+        :raise ValueError: Если сумма пополнения отрицательная
+
+        Примеры:
+        >>> account = BankAccount("Alice", 1000)
+        >>> account.deposit(500)
+        """
+        if not isinstance(amount, (int, float)):
+            raise TypeError("Сумма должна быть типа int или float")
+        if amount <= 0:
+            raise ValueError("Сумма пополнения должна быть положительной")
+        ...
+
+    def withdraw(self, amount: float) -> None:
+        """
+        Снятие средств со счета.
+
+        :param amount: Сумма снятия
+        :raise ValueError: Если сумма превышает баланс
+
+        Примеры:
+        >>> account = BankAccount("Alice", 1000)
+        >>> account.withdraw(200)
+        """
+        if not isinstance(amount, (int, float)):
+            raise TypeError("Сумма должна быть типа int или float")
+        if amount <= 0:
+            raise ValueError("Сумма снятия должна быть положительной")
+        ...
+
+    def check_balance(self) -> float:
+        """
+        Проверка текущего баланса.
+
+        :return: Текущий баланс
+
+        Примеры:
+        >>> account = BankAccount("Alice", 1000)
+        >>> account.check_balance()
+        """
+        ...
+
+
+class Book:
+    def __init__(self, title: str, author: str, pages: int):
+        """
+        Создание и подготовка к работе объекта "Книга"
+
+        :param title: Название книги
+        :param author: Автор книги
+        :param pages: Количество страниц
+
+        Примеры:
+        >>> book = Book("1984", "George Orwell", 328)
+        """
+        if not isinstance(title, str):
+            raise TypeError("Название книги должно быть строкой")
+        if not title:
+            raise ValueError("Название книги не может быть пустым")
+        self.title = title
+
+        if not isinstance(author, str):
+            raise TypeError("Автор должен быть строкой")
+        if not author:
+            raise ValueError("Автор не может быть пустым")
+        self.author = author
+
+        if not isinstance(pages, int):
+            raise TypeError("Количество страниц должно быть типа int")
+        if pages <= 0:
+            raise ValueError("Количество страниц должно быть положительным числом")
+        self.pages = pages
+
+    def read(self, pages_read: int) -> None:
+        """
+        Чтение книги.
+
+        :param pages_read: Количество прочитанных страниц
+        :raise ValueError: Если количество страниц отрицательное или превышает объем книги
+
+        Примеры:
+        >>> book = Book("1984", "George Orwell", 328)
+        >>> book.read(50)
+        """
+        if not isinstance(pages_read, int):
+            raise TypeError("Количество страниц должно быть типа int")
+        if pages_read <= 0:
+            raise ValueError("Количество страниц должно быть положительным числом")
+        ...
+
+    def get_book_info(self) -> str:
+        """
+        Получение информации о книге.
+
+        :return: Строка с информацией о книге
+
+        Примеры:
+        >>> book = Book("1984", "George Orwell", 328)
+        >>> book.get_book_info()
+        """
+        ...
+
+    def is_long_book(self) -> bool:
+        """
+        Проверка, является ли книга длинной (более 300 страниц).
+
+        :return: True если книга длинная, иначе False
+
+        Примеры:
+        >>> book = Book("1984", "George Orwell", 328)
+        >>> book.is_long_book()
+        """
+        ...
+
+
+if __name__ == "__main__":
+    doctest.testmod()
