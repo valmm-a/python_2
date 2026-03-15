@@ -1,0 +1,143 @@
+from typing import List
+
+
+class SocialNetwork:
+    """
+    Базовый класс, описывающий социальную сеть.
+    """
+
+    def __init__(self, name: str, year: int, audience: int) -> None:
+        """
+        Инициализация социальной сети.
+
+        Args:
+            name (str): Название социальной сети
+            year (int): Год создания
+            audience (int): Количество пользователей
+        """
+        self.name: str = name
+        self.year: int = year
+        self.audience: int = audience
+
+        # Непубличный атрибут.
+        # Список пользователей скрыт для предотвращения прямого изменения
+        # извне (инкапсуляция).
+        self._users: List[str] = []
+
+    def __str__(self) -> str:
+        """
+        Строковое представление объекта для пользователя.
+        """
+        return f"Социальная сеть {self.name}, год создания: {self.year}, аудитория: {self.audience}"
+
+    def __repr__(self) -> str:
+        """
+        Техническое представление объекта.
+        """
+        return f"SocialNetwork(name={self.name!r}, year={self.year}, audience={self.audience})"
+
+    def register_user(self, username: str) -> None:
+        """
+        Регистрация нового пользователя.
+
+        Args:
+            username (str): Имя пользователя
+        """
+        self._users.append(username)
+
+    def post_message(self, username: str, message: str) -> str:
+        """
+        Публикация сообщения пользователем.
+
+        Args:
+            username (str): Имя пользователя
+            message (str): Текст сообщения
+
+        Returns:
+            str: Результат публикации
+        """
+        return f"{username} опубликовал сообщение: {message}"
+
+
+class VK(SocialNetwork):
+    """
+    Класс социальной сети VK, наследуется от SocialNetwork.
+    """
+
+    def __init__(self, year: int, audience: int, music_service: bool) -> None:
+        """
+        Расширенный конструктор.
+
+        Args:
+            year (int): Год создания
+            audience (int): Количество пользователей
+            music_service (bool): Есть ли встроенный музыкальный сервис
+        """
+        super().__init__("VK", year, audience)
+        self.music_service: bool = music_service
+
+    def post_message(self, username: str, message: str) -> str:
+        """
+        Переопределённый метод публикации сообщения.
+
+        Причина перегрузки:
+        В VK сообщения могут сопровождаться медиа-вложениями,
+        поэтому формат публикации отличается от базовой реализации.
+
+        Args:
+            username (str): Имя пользователя
+            message (str): Текст сообщения
+
+        Returns:
+            str: Результат публикации
+        """
+        return f"[VK] {username} написал пост: {message} (можно добавить музыку или видео)"
+
+
+class Facebook(SocialNetwork):
+    """
+    Класс социальной сети Facebook, наследуется от SocialNetwork.
+    """
+
+    def __init__(self, year: int, audience: int, has_marketplace: bool) -> None:
+        """
+        Расширенный конструктор.
+
+        Args:
+            year (int): Год создания
+            audience (int): Количество пользователей
+            has_marketplace (bool): Есть ли торговая площадка
+        """
+        super().__init__("Facebook", year, audience)
+        self.has_marketplace: bool = has_marketplace
+
+    def post_message(self, username: str, message: str) -> str:
+        """
+        Переопределённый метод публикации сообщения.
+
+        Причина перегрузки:
+        В Facebook посты могут автоматически распространяться
+        в ленте новостей и группах, поэтому логика публикации
+        отличается от базового класса.
+
+        Args:
+            username (str): Имя пользователя
+            message (str): Текст сообщения
+
+        Returns:
+            str: Результат публикации
+        """
+        return f"[Facebook] {username} опубликовал пост в ленте: {message}"
+
+
+if __name__ == "__main__":
+    # Пример использования
+
+    vk = VK(2006, 100000000, True)
+    fb = Facebook(2004, 2900000000, True)
+
+    vk.register_user("Ivan")
+    fb.register_user("John")
+
+    print(vk.post_message("Ivan", "Привет всем!"))
+    print(fb.post_message("John", "Hello world!"))
